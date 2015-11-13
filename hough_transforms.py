@@ -14,7 +14,8 @@ output = image.copy()
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # detect circles in the image
-circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1.2, 25, 10, 1200, 10, 25)
+circles = cv2.HoughCircles(gray,cv2.cv.CV_HOUGH_GRADIENT,1,20,
+                            param1=50,param2=30,minRadius=10,maxRadius=0)
  
 # ensure at least some circles were found
 if circles is not None:
