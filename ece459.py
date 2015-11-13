@@ -11,6 +11,7 @@ import imutils
 numSegments = 10; 
 green = (0, 255, 0)
  
+
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required = True, help = "Path to the image")
@@ -27,16 +28,62 @@ image = cv2.warpAffine(image, M, (w, h))
 image = cv2.GaussianBlur(image, (5, 5), 0)
 
 # superpixel analysis 
-segments = slic(img_as_float(image), n_segments = numSegments, sigma = 5)
+hsvIm = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+lower_blue = np.array([110, 50, 50])
+upper_blue = np.array([130, 255, 255])
+
+lower_red1 = np.array([170, 50, 50])
+upper_red1 = np.array([179, 255, 255])
+lower_red2 = np.array([0, 50, 50])
+upper_red2 = np.array([10, 255, 255])
+
+maskb = cv2.inRange(hsvIm, lower_blue, upper_blue)
+maskr1 = cv2.inRange(hsvIm, lower_red1, upper_red1)
+maskr2 = cv2.inRange(hsvIm, lower_red2, upper_red2)
+
+
+resb = cv2.bitwise_and(image, image, mask = maskb)
+resr1 = cv2.bitwise_and(image, image, mask = maskr1)
+resr2 = cv2.bitwise_and(image, image, mask = maskr2)
+resr = cv2.bitwise_or(resr1, resr2)
+
+cv2.namedWindow('red', cv2.WINDOW_NORMAL)
+cv2.imshow('red',resr)
+cv2.namedWindow('blue', cv2.WINDOW_NORMAL)
+cv2.imshow('blue', resb)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+print "Exited Windows"	
+
+	
+segmentr = slic(img_as_float(resr), n_segments = numSegments, sigma = 5)
+segmentb = slic(img_as_float(resb), n_segments = numSegments, sigma = 5)
+
+
+#imgray = cv2.cvtColor(resr,cv2.COLOR_BGR2GRAY)
+#ret,thresh = cv2.threshold(imgray,127,255,0)
+#contr, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
+#imgray = cv2.cvtColor(resr,cv2.COLOR_BGR2GRAY)
+#ret,thresh = cv2.threshold(imgray,127,255,0)
+#contb, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
  
 # show the output of SLIC
 fig = plt.figure("Superpixels")
 ax = fig.add_subplot(1, 1, 1)
-ax.imshow(mark_boundaries(img_as_float(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)), segments))
+ax.imshow(mark_boundaries(img_as_float(cv2.cvtColor(resb, cv2.COLOR_BGR2RGB)), segmentb))
 plt.axis("off")
 plt.show()
 
-
+#redC = cv2.drawContours(resr, contr, -1, (0,255,0), 3)
+#blueC = cv2.drawContours(resb, contb, -1, (0,255,0), 3)
+#cv2.namedWindow('red segment', cv2.WINDOW_NORMAL)
+#cv2.imshow('red segment', redC)
+#cv2.namedWindow('blue segment', cv2.WINDOW_NORMAL)
+#cv2.imshow('blue segment', blueC)
+#cv2.waitKey(0)
+#cv2.destroyAllWindows()
 
 # loop over the unique segment values
 
