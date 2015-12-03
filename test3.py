@@ -20,8 +20,8 @@ image_hsv = cv2.cvtColor(image_original, cv2.COLOR_BGR2HSV)
 # THIS CODE WORKS 
 
 # define range of blue color in HSV
-lower_blue = np.array([80, 30, 0])
-upper_blue = np.array([130,255,255])
+lower_blue = np.array([100, 60, 30])
+upper_blue = np.array([120, 255, 255])
 
 # Threshold the HSV image to get only blue colors
 mask_blue = cv2.inRange(image_hsv, lower_blue, upper_blue)
@@ -33,7 +33,7 @@ cv2.imshow("mask canny", mask_blue)
 cv2.waitKey(0)
 
 circles = cv2.HoughCircles(mask_blue,cv2.cv.CV_HOUGH_GRADIENT,1,30,
-                            param1=50,param2=15,minRadius=15,maxRadius=30)
+                            param1=50,param2=15,minRadius=15,maxRadius=40)
 
 if circles is not None: 
 	circles = np.round(circles[0, :]).astype("int")
