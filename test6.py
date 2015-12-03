@@ -17,12 +17,15 @@ image_hsv = cv2.cvtColor(image_original, cv2.COLOR_BGR2HSV)
 # THIS CODE WORKS 
 
 # define range of blue color in HSV
-lower_blue = np.array([90, 30, 0])
-upper_blue = np.array([110,255,255])
+lower_blue = np.array([100, 30, 15])
+upper_blue = np.array([150, 255, 255])
 
-# Threshold the HSV image to get only blue colors
 mask_blue = cv2.inRange(image_hsv, lower_blue, upper_blue)
 cv2.imshow("mask", mask_blue)
+cv2.waitKey(0)
+
+mask_blue = cv2.medianBlur(mask_blue, 11)
+cv2.imshow("mask median blur", mask_blue)
 cv2.waitKey(0)
 
 mask_blue = cv2.Canny(mask_blue, 50, 150) 
@@ -32,7 +35,7 @@ cv2.waitKey(0)
 
 onlyOneLine = False 
 
-threshold = 90
+threshold = 30
 
 x1_perm = 0 
 x2_perm = 0 
@@ -72,18 +75,22 @@ cv2.line(image_original,(x1,y1),(x2,y2),(0,255, 0),3)
 cv2.imshow("output", image_original)
 cv2.waitKey(0)
 
-# lower mask (0-10)
+# # lower mask (0-10)
 lower_red = np.array([0,50, 50])
 upper_red = np.array([10,255,255])
 mask0 = cv2.inRange(image_hsv, lower_red, upper_red)
 
 # upper mask (170-180)
 lower_red = np.array([160, 50, 50])
-upper_red = np.array([180, 100, 150])
+upper_red = np.array([180, 255, 255])
 mask1 = cv2.inRange(image_hsv, lower_red, upper_red)
 
 mask_red = mask0 + mask1 
 cv2.imshow("mask", mask_red)
+cv2.waitKey(0)
+
+mask_red = cv2.medianBlur(mask_red, 11)
+cv2.imshow("mask median blur", mask_red)
 cv2.waitKey(0)
 
 mask_red = cv2.Canny(mask_red, 50, 150) 
@@ -96,7 +103,7 @@ cv2.waitKey(0)
 
 onlyOneLine = False 
 
-threshold = 90
+threshold = 30
 
 x1_perm = 0 
 x2_perm = 0 
@@ -156,7 +163,7 @@ cv2.waitKey(0)
 
 onlyOneLine = False 
 
-threshold = 50
+threshold = 30
 
 x1_perm = 0 
 x2_perm = 0 

@@ -18,20 +18,26 @@ cv2.imshow("hsv", image_hsv)
 cv2.waitKey(0)
 
 
-# both greens are successfully distinguished 
-lower_green = np.array([25, 30, 15])
-upper_green = np.array([75, 255, 255])
+# # lower mask (0-10)
+lower_red = np.array([0,50, 50])
+upper_red = np.array([10,255,255])
+mask0 = cv2.inRange(image_hsv, lower_red, upper_red)
 
-mask_green = cv2.inRange(image_hsv, lower_green, upper_green)
-cv2.imshow("mask", mask_green)
+# upper mask (170-180)
+lower_red = np.array([160, 50, 50])
+upper_red = np.array([180, 255, 255])
+mask1 = cv2.inRange(image_hsv, lower_red, upper_red)
+
+mask_red = mask0 + mask1 
+cv2.imshow("mask", mask_red)
 cv2.waitKey(0)
 
-mask_green = cv2.medianBlur(mask_green, 9)
-cv2.imshow("mask median blur", mask_green)
+mask_red = cv2.medianBlur(mask_red, 11)
+cv2.imshow("mask median blur", mask_red)
 cv2.waitKey(0)
 
-mask_green = cv2.Canny(mask_green, 50, 150) 
-cv2.imshow("mask canny", mask_green)
+mask_red = cv2.Canny(mask_red, 50, 150) 
+cv2.imshow("mask canny", mask_red)
 cv2.waitKey(0)
 
 
@@ -39,7 +45,7 @@ cv2.waitKey(0)
 
 onlyOneLine = False 
 
-threshold = 50
+threshold = 30
 
 x1_perm = 0 
 x2_perm = 0 
@@ -49,7 +55,7 @@ y2_perm = 0
 
 while onlyOneLine == False: 
 	i = 0 
-	lines = cv2.HoughLines(mask_green,1,np.pi/70, threshold)
+	lines = cv2.HoughLines(mask_red,1,np.pi/70, threshold)
 	for rho,theta in lines[0]:
 	    if (np.pi/70 <= theta <= np.pi/7) or (2.056 < theta < 4.970) or (1.570 <= theta <= 1.600): #(2,6 <=theta <= 26) or (theta >118 and theta <= 285)
 
