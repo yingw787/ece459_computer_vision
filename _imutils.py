@@ -82,4 +82,30 @@ def findRungs(image = None, mask = None):
 
 	cv2.line(image,(x1,y1),(x2,y2),(0,255, 0),3)
 
-	return image 
+	return image, [y1, y2]
+
+
+def findBolas(image = None, mask = None):
+	
+	if image is None or mask is None: 
+		return 
+
+	circles = cv2.HoughCircles(mask,cv2.cv.CV_HOUGH_GRADIENT,1,30,
+                            param1=50,param2=15,minRadius=7,maxRadius=25)
+
+	if circles is not None: 
+		circles = np.round(circles[0, :]).astype("int")
+	 
+		# loop over the (x, y) coordinates and radius of the circles
+		for (xCoordinate, yCoordinate, radius) in circles:
+			
+			# draw the circle in the output image, then draw a rectangle
+			# corresponding to the center of the circle
+			cv2.circle(image, (xCoordinate, yCoordinate), radius, (0, 255, 0), 4)
+			cv2.rectangle(image, (xCoordinate - 5, yCoordinate - 5), (xCoordinate + 5, yCoordinate + 5), (0, 128, 255), -1)
+	 
+		# show the output image
+		cv2.imshow("output", image)
+		cv2.waitKey(0)
+
+	return image, circles 
