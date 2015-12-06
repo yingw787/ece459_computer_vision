@@ -6,7 +6,6 @@ from _imutils import getImage
 from _imutils import findRungs 
 from _imutils import generateColorThresholdedImage
 from _imutils import findBolas
-from _imutils import removeDuplicateCircles
 
 # DEFINE PARAMETERS HERE 
 
