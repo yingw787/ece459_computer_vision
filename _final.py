@@ -6,6 +6,7 @@ from _imutils import getImage
 from _imutils import findRungs 
 from _imutils import generateColorThresholdedImage
 from _imutils import findBolas
+from _processingutils import createThresholdedSegments
 
 # DEFINE PARAMETERS HERE 
 
@@ -37,6 +38,9 @@ cv2.waitKey(0)
 
 # convert image to HSV color space for thresholding 
 image_hsv = cv2.cvtColor(image_original, cv2.COLOR_BGR2HSV)
+
+# DETECT RUNGS 
+# USE THE FULL IMAGE 
 
 # generate mask 
 mask_blue = generateColorThresholdedImage(image_hsv, lower_blue, upper_blue)
@@ -71,6 +75,10 @@ cv2.waitKey(0)
 # print blue_rung_y_coordinates
 # print red_rung_y_coordinates
 # print green_rung_y_coordinates
+
+image_thresholdedSegments = createThresholdedSegments(image_original)
+cv2.imshow("thresholded segments", image_thresholdedSegments)
+cv2.waitKey(0)
 
 blue_rung_y_threshold = min(blue_rung_y_coordinates)
 red_rung_y_threshold = min(red_rung_y_coordinates)

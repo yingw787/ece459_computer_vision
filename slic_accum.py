@@ -30,7 +30,7 @@ image_accum = np.zeros((height, width, channels), np.uint8)
 cv2.imshow("original accum", image_accum)
 
 # mask for bola detection 
-lower_blue = np.array([100, 75, 75])
+lower_blue = np.array([100, 75, 25])
 upper_blue = np.array([150, 100, 120])
 
 # lower mask for bola detection 

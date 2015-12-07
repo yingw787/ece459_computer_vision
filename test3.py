@@ -37,7 +37,7 @@ cv2.imshow("mask canny", mask_blue)
 cv2.waitKey(0)
 
 circles = cv2.HoughCircles(mask_blue,cv2.cv.CV_HOUGH_GRADIENT,1,30,
-                            param1=40,param2=17,minRadius=15,maxRadius=40)
+                            param1=40,param2=15,minRadius=15,maxRadius=40)
 
 if circles is not None: 
 	circles = np.round(circles[0, :]).astype("int")
