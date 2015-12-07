@@ -91,7 +91,7 @@ def findBolas(image = None, mask = None):
 		return 
 
 	circles = cv2.HoughCircles(mask,cv2.cv.CV_HOUGH_GRADIENT,1,30,
-                            param1=50,param2=15,minRadius=7,maxRadius=25)
+                            param1=50,param2=15,minRadius=5,maxRadius=25)
 
 	if circles is not None: 
 		circles = np.round(circles[0, :]).astype("int")
