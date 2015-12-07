@@ -21,7 +21,7 @@ args = vars(ap.parse_args())
 # load the image and apply SLIC and extract (approximately)
 # the supplied number of segments
 image = cv2.imread(args["image"])
-segments = slic(img_as_float(image), n_segments = 100, sigma = 7)
+segments = slic(img_as_float(image), n_segments = 400, sigma = 7)
 
 height, width, channels = image.shape
 print height, width, channels
@@ -30,8 +30,8 @@ image_accum = np.zeros((height, width, channels), np.uint8)
 cv2.imshow("original accum", image_accum)
 
 # mask for bola detection 
-lower_blue = np.array([100, 30, 15])
-upper_blue = np.array([150, 255, 255])
+lower_blue = np.array([100, 75, 75])
+upper_blue = np.array([150, 100, 120])
 
 # lower mask for bola detection 
 lower_red_0 = np.array([0,50, 50])
@@ -82,8 +82,9 @@ for (i, segVal) in enumerate(np.unique(segments)):
 
 	if max_error != 0: 
 		image_accum = cv2.add(image_accum, cv2.bitwise_and(image, image, mask = mask))
-	cv2.imshow("image accum", image_accum)
 
-	cv2.waitKey(0)
+cv2.imshow("image accum", image_accum)
+cv2.waitKey(0)
 
+cv2.imwrite("test_plot.png", image_accum)
 
