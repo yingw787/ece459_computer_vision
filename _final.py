@@ -45,6 +45,7 @@ image_hsv = cv2.cvtColor(image_original, cv2.COLOR_BGR2HSV)
 # generate mask 
 mask_blue = generateColorThresholdedImage(image_hsv, lower_blue, upper_blue)
 
+
 # use mask in order to find the rung
 image_modified, blue_rung_y_coordinates = findRungs(image_original, mask_blue)
 cv2.imshow("image", image_modified)

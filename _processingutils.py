@@ -83,6 +83,4 @@ def createThresholdedSegments(image_original):
 		if max_error != 0: 
 			image_accum = cv2.add(image_accum, cv2.bitwise_and(image_original, image_original, mask = mask))
 
-	cv2.imshow("output", image_accum)
-	cv2.waitKey(0)
 	return image_accum 

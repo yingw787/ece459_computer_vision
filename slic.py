@@ -14,7 +14,7 @@ args = vars(ap.parse_args())
 # load the image and convert it to a floating point data type
 image = img_as_float(io.imread(args["image"]))
 
-numSegments = 300
+numSegments = 400
 
 
 # apply SLIC and extract (approximately) the supplied number

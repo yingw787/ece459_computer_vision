@@ -38,7 +38,11 @@ def generateColorThresholdedImage(image_hsv, lower_bound, upper_bound):
 
 	mask = cv2.inRange(image_hsv, lower_bound, upper_bound)
 	mask = cv2.medianBlur(mask, 11)
-	mask = cv2.Canny(mask, 50, 150) 
+	mask = cv2.Canny(mask, 50, 150)
+
+	cv2.imshow('mask', mask) 
+
+
 
 	return mask 
 
